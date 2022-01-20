@@ -1,107 +1,73 @@
-import React, { useEffect, useState } from "react";
+import { StatusBar } from "expo-status-bar";
+import React from "react";
 import {
-  Button,
-  Image,
-  ScrollView,
+  FlatList,
+  ImageBackground,
   StyleSheet,
   Text,
-  TextInput,
   View,
-  Modal
 } from "react-native";
+import {
+  Card,
+  Searchbar,
+  Title,
+  Paragraph,
+  Avatar,
+  Button,
+  Divider,
+} from "react-native-paper";
+import { Api } from "../Api";
 
-
-const HomeScreen = () => {
-  const [passwords, setpassword] = useState("");
-  const [name, setname] = useState("");
-  const [contacts, setcontacts] = useState([]);
-  const [validate, setvalidate] = useState(true);
-  const [Modals, setModal] = useState(true)
-  const texthandler = (names) => {
-    Validator();
-    setname(names);
-  };
-  const passwordhandler = (password) => {
-    if (+password >= 0 && password.length <= 11) {
-      Validator();
-      setpassword(password);
-    }
-  };
-  const Validator = () => {
-    if (name.length >= 3 && passwords.length === 11) {
-      setvalidate(!validate);
-    }
-  };
-
-  const onsubmitHandler = () => {
-    setcontacts((contact) => [...contact, { passwords, name }]);
-
-    setname("");
-    setpassword("");
-    setvalidate(!validate);
-  };
-  const modalHandler = () => {
-       setModal(false)  
-     }
-
-  useEffect(() => {
-    Validator();
-  }, []);
+const Rendering = (props) => {
   return (
-    
-    <View style={styles.homeContainer}>
-      
-      <View style={styles.container}>
-        <Text style={styles.MyText}> Name</Text>
-        <TextInput
-          style={styles.Input}
-          value={name}
-          onChangeText={texthandler}
-        />
+    <View style={styles.card}>
+      <View>
+        <Avatar.Image source={props.image} style={{ margin: 1 }} />
       </View>
-      <View style={styles.container}>
-        <Text style={styles.MyText}> Password </Text>
-        <TextInput
-          style={styles.Input}
-          value={passwords}
-          onChangeText={passwordhandler}
-          keyboardType="numeric"
-        />
+      <View>
+        <Title style={{}}> Hello</Title>
+        <Paragraph style={{ padding: 5 }}>
+          fnfvbhibfibrifbhibfrbfhiqbribfqiebfiqerbibghirbh iberibqeii
+          briqibgibiqeirbqiberibgqerihbgihetrbgihbeigbqeibg
+        </Paragraph>
+        <Divider />
       </View>
-      <Button title="ENTER" onPress={onsubmitHandler} disabled={validate} />
-      <ScrollView>
-        {contacts.map((conts) => (
-          <Text>{conts}</Text>
-        ))}
-      </ScrollView>
     </View>
-    
+  );
+};
+const HomeScreen = () => {
+  const renderItem = ({ item }) => {
+    return <Rendering title={item.title} image={item.image} />;
+  };
+
+  return (
+    <View>
+      <Searchbar placeholder="Search" />
+      <FlatList data={Api} renderItem={renderItem} />
+    </View>
   );
 };
 
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    justifyContent: "flex-end",
+  button: {
+    color: "#fff",
+  },
+  image: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+  },
+
+  card: {
     flexDirection: "row",
-  },
-  Input: {
-    borderColor: "black",
-    borderWidth: 1,
-    borderRadius: 7,
-  },
-  MyText: {
-    color: "#211AAD",
-    padding: 40,
-  },
-  homeContainer: {
-    display: "flex",
-    flexDirection: "column",
+    marginVertical: "5%",
+    flex: 1,
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 4,
-    margin: 4,
+  },
+  cardContent: {
+    flexDirection: "column",
   },
 });

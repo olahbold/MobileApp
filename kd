@@ -1,0 +1,11 @@
+ <Stack.Navigator initialRouteName="Homes">
+        <Stack.Screen name="Homes" component={DetailStack} />
+        <Stack.Screen
+          name="Details"
+          component={DetailsScreen}
+          options={{
+            title: () => null,
+            headerRight: () => <Button title="Menu" />,
+          }}
+        />
+      </Stack.Navigator>
